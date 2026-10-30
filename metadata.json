@@ -1,0 +1,11 @@
+{
+  "name": "Big Button Life Hub",
+  "description": "A chunky, mobile-first tinkerer hub combining To-Do, Slip Capture, Full Budget, Proxy, Consensus Board, and Visual Flow Builder.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

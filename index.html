@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Big Button Life Hub</title>
+    <meta name="description" content="A chunky, mobile-first tinkerer hub combining To-Do, Slip Capture, Full Budget, Proxy, Consensus Board, and Visual Flow Builder." />
+    <meta property="og:title" content="Big Button Life Hub" />
+    <meta property="og:description" content="A chunky, mobile-first tinkerer hub combining To-Do, Slip Capture, Full Budget, Proxy, Consensus Board, and Visual Flow Builder." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#FFE600" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="LifeHub" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <!-- Fredoka or Outfit bold display fonts for chunky neo-brutalist feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <script>
+      // Suppress Vite HMR WebSocket closing errors in AI Studio iframe environment
+      window.addEventListener('error', function(e) {
+        if (e && (e.message?.includes('WebSocket') || e.error?.message?.includes('WebSocket'))) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+        }
+      }, true);
+      window.addEventListener('unhandledrejection', function(e) {
+        if (e && (e.reason?.message?.includes('WebSocket') || String(e.reason).includes('WebSocket'))) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+        }
+      }, true);
+    </script>
+  </head>
+  <body class="bg-amber-50 text-slate-900 antialiased selection:bg-yellow-300 selection:text-black">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="120" fill="#FFE600"/>
+  <rect x="24" y="24" width="464" height="464" rx="96" fill="#FFE600" stroke="#1E293B" stroke-width="24"/>
+  <!-- Chunky 3D Button element -->
+  <rect x="72" y="96" width="368" height="320" rx="60" fill="#1E293B"/>
+  <rect x="72" y="80" width="368" height="320" rx="60" fill="#3B82F6" stroke="#1E293B" stroke-width="20"/>
+  <!-- Checkmark + Star toy stamp inside button -->
+  <circle cx="256" cy="220" r="76" fill="#10B981" stroke="#1E293B" stroke-width="16"/>
+  <path d="M224 220 L246 242 L292 196" fill="none" stroke="#FFFFFF" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Bottom big pill -->
+  <rect x="120" y="324" width="272" height="40" rx="20" fill="#F43F5E" stroke="#1E293B" stroke-width="12"/>
+</svg>

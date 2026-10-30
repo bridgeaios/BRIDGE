@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-heading: 'Fredoka', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  body {
+    font-family: var(--font-heading);
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    touch-action: manipulation;
+    background-color: #fefce8; /* cheerful warm pastel yellow */
+  }
+
+  input, textarea, select {
+    user-select: text;
+    font-family: var(--font-heading);
+  }
+}
+
+/* Neo-brutalist tactile toy button base */
+.chunky-btn {
+  border-width: 4px;
+  border-color: #0f172a;
+  box-shadow: 5px 5px 0px #0f172a;
+  transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.08s ease;
+}
+
+.chunky-btn:active {
+  transform: translate(3px, 3px);
+  box-shadow: 2px 2px 0px #0f172a;
+}
+
+.chunky-card {
+  border-width: 4px;
+  border-color: #0f172a;
+  box-shadow: 6px 6px 0px #0f172a;
+  border-radius: 28px;
+}
+
+.chunky-card-sm {
+  border-width: 3.5px;
+  border-color: #0f172a;
+  box-shadow: 4px 4px 0px #0f172a;
+  border-radius: 22px;
+}
+
+/* Playful toy bounce animation */
+@keyframes toyPop {
+  0% { transform: scale(0.92); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+.toy-pop {
+  animation: toyPop 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Safe area insets for mobile notches */
+.safe-pb {
+  padding-bottom: max(env(safe-area-inset-bottom, 20px), 20px);
+}
+.safe-pt {
+  padding-top: max(env(safe-area-inset-top, 14px), 14px);
+}
