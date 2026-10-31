@@ -26,6 +26,7 @@ export const BottomNav: React.FC = () => {
     { id: 'budget', label: 'Piggy', emoji: '🐷', color: 'bg-emerald-400' },
     { id: 'proxy', label: 'Helpers', emoji: '🤝', color: 'bg-purple-300' },
     { id: 'consensus', label: 'Vote', emoji: '🗳️', badge: openProposalsCount, color: 'bg-pink-300' },
+    { id: 'arcade', label: 'Arcade', emoji: '🎮', color: 'bg-indigo-300' },
     { id: 'flows', label: 'Blocks', emoji: '🧩', color: 'bg-teal-300' },
   ];
 

@@ -21,7 +21,14 @@ import { triggerHaptic } from '../../utils/haptics';
 import { AiSuggestionBanners } from '../common/AiSuggestionBanners';
 
 export const HomeDashboard: React.FC = () => {
-  const { db, activePersona, setActiveModule, setQuickAddOpen, toggleTaskCompleted } = useApp();
+  const {
+    db,
+    activePersona,
+    setActiveModule,
+    setQuickAddOpen,
+    toggleTaskCompleted,
+    setIsGmailSummaryOpen,
+  } = useApp();
 
   // Metrics
   const openTasks = db.tasks.filter((t) => !t.completed);
@@ -232,7 +239,45 @@ export const HomeDashboard: React.FC = () => {
           >
             PLAY WITH BLOCKS
           </BigButton>
+
+          {/* 7. 3D ARCADE GAME */}
+          <BigButton
+            color="yellow"
+            size="mega"
+            icon="🎮"
+            subtitle="Play 3D Circuit Rush Tinkerer Runner"
+            onClick={() => setActiveModule('arcade')}
+          >
+            3D ARCADE GAME
+          </BigButton>
         </div>
+      </section>
+
+      {/* Quick Gmail Summary Dispatch Banner */}
+      <section className="bg-rose-100 border-3 border-slate-900 rounded-[28px] p-4 chunky-card flex items-center justify-between gap-3 shadow-[4px_4px_0px_#000]">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-12 h-12 rounded-2xl bg-rose-500 text-white flex items-center justify-center border-2 border-slate-900 font-black text-2xl shrink-0 shadow-[2px_2px_0px_#000]">
+            ✉️
+          </div>
+          <div className="min-w-0">
+            <h4 className="font-black text-slate-950 text-base uppercase truncate">
+              Send Summary via Gmail
+            </h4>
+            <p className="text-xs font-bold text-slate-700 truncate">
+              Pre-filled email with tasks, votes & budget report
+            </p>
+          </div>
+        </div>
+
+        <button
+          onClick={() => {
+            triggerHaptic.heavy();
+            setIsGmailSummaryOpen(true);
+          }}
+          className="chunky-btn px-4 py-2.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white font-black text-xs border-2 border-slate-900 shadow-[2px_2px_0px_#000] shrink-0 active:translate-y-0.5"
+        >
+          OPEN GMAIL
+        </button>
       </section>
 
       {/* Child-Simple Focus: Tap to Check Off with Confetti! */}
