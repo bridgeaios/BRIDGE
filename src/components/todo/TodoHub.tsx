@@ -5,13 +5,9 @@ import {
   Plus,
   Trash2,
   Calendar,
-  Search,
-  Sparkles,
-  ChevronDown,
-  ChevronUp,
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
-import { useApp } from '../../context/AppContext';
+import { useTasks } from '../../hooks/useTRPC';
 import { Priority, TaskItem } from '../../types';
 import { playSound } from '../../utils/sound';
 import { triggerHaptic } from '../../utils/haptics';
@@ -28,7 +24,14 @@ const QUICK_PRESETS = [
 ];
 
 export const TodoHub: React.FC = () => {
-  const { db, addTask, updateTask, toggleTaskCompleted, deleteTask, activePersona } = useApp();
+  const {
+    tasks,
+    isLoading,
+    error,
+    createTask,
+    toggleTask,
+    deleteTask,
+  } = useTasks();
   const { actionSuccess, celebrate, selection } = useHaptics();
 
   const [filterMode, setFilterMode] = useState<'all' | 'today' | 'urgent' | 'completed'>('all');
@@ -36,7 +39,6 @@ export const TodoHub: React.FC = () => {
   const [newTitle, setNewTitle] = useState('');
   const [newCategory, setNewCategory] = useState('Hardware');
   const [newPriority, setNewPriority] = useState<Priority>('medium');
-  const [expandedId, setExpandedId] = useState<string | null>(null);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   const handleSyncTaskToCalendar = async (task: TaskItem) => {
@@ -70,31 +72,35 @@ export const TodoHub: React.FC = () => {
 
   const todayStr = new Date().toISOString().split('T')[0];
 
-  const filteredTasks = db.tasks.filter((t) => {
+  const filteredTasks = tasks.filter((t) => {
     if (filterMode === 'today') return !t.completed && (t.dueDate === todayStr || (t.dueDate && t.dueDate < todayStr));
     if (filterMode === 'urgent') return !t.completed && (t.priority === 'urgent' || t.priority === 'high');
     if (filterMode === 'completed') return t.completed;
     return true;
   });
 
-  const handleCreate = (e: React.FormEvent) => {
+  const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTitle.trim()) return;
 
-    addTask({
-      title: newTitle.trim(),
-      completed: false,
-      priority: newPriority,
-      category: newCategory,
-      subtasks: [],
-      recurring: 'none',
-      dueDate: todayStr,
-    });
-
-    confetti({ particleCount: 40, spread: 60, origin: { y: 0.6 } });
-    actionSuccess();
-    setNewTitle('');
-    setShowAddForm(false);
+    try {
+      await createTask({
+        title: newTitle.trim(),
+        completed: false,
+        priority: newPriority,
+        category: newCategory,
+        subtasks: [],
+        recurring: 'none',
+        dueDate: todayStr,
+      });
+      confetti({ particleCount: 40, spread: 60, origin: { y: 0.6 } });
+      actionSuccess();
+      setNewTitle('');
+      setShowAddForm(false);
+    } catch (err: any) {
+      setToastMsg(err?.message || 'Failed to create task');
+      setTimeout(() => setToastMsg(null), 4000);
+    }
   };
 
   const pickPreset = (preset: { emoji: string; title: string; cat: string }) => {
@@ -105,7 +111,7 @@ export const TodoHub: React.FC = () => {
   };
 
   const handleToggle = (taskId: string, isCompleted: boolean) => {
-    toggleTaskCompleted(taskId);
+    toggleTask(taskId, !isCompleted);
     if (!isCompleted) {
       confetti({ particleCount: 60, spread: 70, origin: { y: 0.7 } });
       celebrate();
@@ -135,11 +141,31 @@ export const TodoHub: React.FC = () => {
         </button>
       </div>
 
+      {/* Loading State */}
+      {isLoading && (
+        <div className="p-4 bg-amber-50 border-3 border-slate-900 rounded-2xl text-center">
+          <span className="animate-pulse text-2xl">⏳</span>
+          <p className="text-sm font-bold text-slate-900 mt-1">Loading tasks from hub...</p>
+        </div>
+      )}
+
+      {/* Error State */}
+      {error && (
+        <div className="p-3 bg-rose-100 border-3 border-slate-900 rounded-2xl font-black text-xs text-slate-900 shadow-[3px_3px_0px_#000]">
+          {error}
+          <button onClick={() => setError(null)} className="ml-2 font-bold text-rose-700">
+            ✕
+          </button>
+        </div>
+      )}
+
       {/* Toast Notification */}
       {toastMsg && (
         <div className="p-3 bg-emerald-200 border-3 border-slate-900 rounded-2xl font-black text-xs text-slate-900 shadow-[3px_3px_0px_#000] flex items-center justify-between">
           <span>{toastMsg}</span>
-          <button onClick={() => setToastMsg(null)} className="font-bold text-slate-700">✕</button>
+          <button onClick={() => setToastMsg(null)} className="font-bold text-slate-700">
+            ✕
+          </button>
         </div>
       )}
 
@@ -269,19 +295,12 @@ export const TodoHub: React.FC = () => {
             return (
               <div
                 key={task.id}
-                className={`
-                  p-4 rounded-[28px] border-3.5 border-slate-900 transition flex items-center justify-between gap-3.5
-                  ${isDone ? 'bg-slate-100 opacity-70 shadow-xs' : isUrgent ? 'bg-amber-100 shadow-[4px_4px_0px_#0f172a]' : 'bg-white shadow-[4px_4px_0px_#0f172a]'}
-                `}
+                className={`\n                  p-4 rounded-[28px] border-3.5 border-slate-900 transition flex items-center justify-between gap-3.5\n                  ${isDone ? 'bg-slate-100 opacity-70 shadow-xs' : isUrgent ? 'bg-amber-100 shadow-[4px_4px_0px_#0f172a]' : 'bg-white shadow-[4px_4px_0px_#0f172a]'}\n                `}
               >
                 {/* GIANT 1-TAP CHECKBOX */}
                 <button
                   onClick={() => handleToggle(task.id, isDone)}
-                  className={`
-                    w-14 h-14 rounded-2xl border-3 border-slate-900 flex items-center justify-center shrink-0 cursor-pointer
-                    transition active:scale-90
-                    ${isDone ? 'bg-emerald-400 text-slate-950' : 'bg-white hover:bg-yellow-200'}
-                  `}
+                  className={`\n                    w-14 h-14 rounded-2xl border-3 border-slate-900 flex items-center justify-center shrink-0 cursor-pointer\n                    transition active:scale-90\n                    ${isDone ? 'bg-emerald-400 text-slate-950' : 'bg-white hover:bg-yellow-200'}\n                  `}
                   title={isDone ? 'Mark not done' : 'Mark finished!'}
                 >
                   {isDone ? (

@@ -17,8 +17,7 @@ import { DEMO_PERSONAS, getInitialDemoDatabase } from '../utils/demoData';
 import { isSoundEnabled, playSound, setSoundEnabled } from '../utils/sound';
 import { isHapticsEnabled, setHapticsEnabled, triggerHaptic } from '../utils/haptics';
 import { getActiveCurrency, setActiveCurrency, SUPPORTED_CURRENCIES, CurrencyConfig } from '../utils/money';
-import { initAuth, googleSignIn, logout as googleLogout } from '../utils/googleWorkspace';
-import { syncAllToGoogleWorkspace, SyncResult, getLastSyncResult } from '../services/googleSyncService';
+import type { SyncResult } from '../services/googleSyncService';
 
 interface AppContextType {
   db: AppDatabase;
@@ -136,7 +135,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isSyncModalOpen, setIsSyncModalOpen] = useState(false);
   const [isGmailSummaryOpen, setIsGmailSummaryOpen] = useState(false);
   const [isGoogleSyncing, setIsGoogleSyncing] = useState(false);
-  const [lastGoogleSyncResult, setLastGoogleSyncResult] = useState<SyncResult | null>(() => getLastSyncResult());
+  const [lastGoogleSyncResult, setLastGoogleSyncResult] = useState<SyncResult | null>(null);
   const [aiSuggestions, setAiSuggestions] = useState<any[]>([]);
 
   // Google Workspace & Firebase Auth
@@ -157,16 +156,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Initialize Firebase Auth listener
   useEffect(() => {
-    const unsubscribe = initAuth(
-      (user, token) => {
-        setGoogleUser(user);
-        setGoogleToken(token);
-      },
-      () => {
-        setGoogleUser(null);
-        setGoogleToken(null);
-      }
-    );
+    let unsubscribe: any;
+    (async () => {
+      const { initAuth } = await import('../utils/googleWorkspace');
+      unsubscribe = initAuth(
+        (user, token) => {
+          setGoogleUser(user);
+          setGoogleToken(token);
+        },
+        () => {
+          setGoogleUser(null);
+          setGoogleToken(null);
+        }
+      );
+    })();
     return () => {
       if (typeof unsubscribe === 'function') unsubscribe();
     };
@@ -174,6 +177,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const connectGoogle = async () => {
     try {
+      const { googleSignIn } = await import('../utils/googleWorkspace');
       const res = await googleSignIn();
       if (res) {
         setGoogleUser(res.user);
@@ -188,6 +192,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const disconnectGoogle = async () => {
+    const { logout: googleLogout } = await import('../utils/googleWorkspace');
     await googleLogout();
     setGoogleUser(null);
     setGoogleToken(null);
@@ -686,6 +691,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         return;
       }
     } catch {}
+    const { getInitialDemoDatabase } = await import('../utils/demoData');
     const demo = getInitialDemoDatabase();
     persistDatabase(demo);
     playSound.complete();
@@ -713,6 +719,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const syncGoogleNow = async (options?: { forceNew?: boolean }): Promise<SyncResult> => {
     setIsGoogleSyncing(true);
     try {
+      const { syncAllToGoogleWorkspace } = await import('../services/googleSyncService');
       const result = await syncAllToGoogleWorkspace(db, {
         userPersonaName: activePersona.name,
         forceNewSpreadsheet: options?.forceNew,
@@ -790,6 +797,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       if (isGoogleSyncing) return;
       try {
         setIsGoogleSyncing(true);
+        const { syncAllToGoogleWorkspace } = await import('../services/googleSyncService');
         const res = await syncAllToGoogleWorkspace(db, {
           userPersonaName: activePersona.name,
         });

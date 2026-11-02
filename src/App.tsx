@@ -3,12 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState, Suspense, lazy } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import { Header } from './components/layout/Header';
 import { BottomNav } from './components/layout/BottomNav';
 import { QuickAddModal } from './components/common/QuickAddModal';
-import { SystemTestRunner } from './components/common/SystemTestRunner';
 import { HomeDashboard } from './components/home/HomeDashboard';
 import { TodoHub } from './components/todo/TodoHub';
 import { SlipCaptureHub } from './components/slips/SlipCaptureHub';
@@ -20,9 +19,25 @@ import { AdminSetupModal } from './components/admin/AdminSetupModal';
 import { CasualAiModal } from './components/ai/CasualAiModal';
 import { GoogleSyncModal } from './components/common/GoogleSyncModal';
 import { GmailSummaryModal } from './components/common/GmailSummaryModal';
-import { ArcadeGameHub } from './components/game/ArcadeGameHub';
+const ArcadeGameHub = lazy(() => import('./components/game/ArcadeGameHub').then(m => ({ default: m.ArcadeGameHub })));
+const LandingPage = lazy(() => import('./pages/HubPages').then(m => ({ default: m.LandingPage })));
+const AuthPage = lazy(() => import('./pages/HubPages').then(m => ({ default: m.AuthPage })));
+const PaymentPage = lazy(() => import('./pages/HubPages').then(m => ({ default: m.PaymentPage })));
 
 import { useHaptics } from './hooks/useHaptics';
+
+type Route = 'landing' | 'auth' | 'payment' | 'app';
+
+const RouteContext = createContext<{
+  route: Route;
+  setRoute: (r: Route) => void;
+} | null>(null);
+
+export function useRoute() {
+  const ctx = useContext(RouteContext);
+  if (!ctx) throw new Error('useRoute must be used within RouteProvider');
+  return ctx;
+}
 
 function MainContent() {
   const { activeModule, isGmailSummaryOpen, setIsGmailSummaryOpen } = useApp();
@@ -39,7 +54,6 @@ function MainContent() {
       {activeModule === 'arcade' && <ArcadeGameHub />}
 
       <QuickAddModal />
-      <SystemTestRunner />
       <AdminSetupModal />
       <CasualAiModal />
       <GoogleSyncModal />
@@ -52,7 +66,7 @@ function MainContent() {
 }
 
 function AppContent() {
-  // Integrate useHaptics hook to trigger light vibration feedback pattern on clicking any element with class 'chunky-btn'
+  const [route, setRoute] = useState<Route>('landing');
   const { light } = useHaptics();
 
   useEffect(() => {
@@ -77,11 +91,22 @@ function AppContent() {
   }, [light]);
 
   return (
-    <div className="min-h-screen bg-amber-50 text-slate-900 selection:bg-yellow-300 selection:text-black font-sans">
-      <Header />
-      <MainContent />
-      <BottomNav />
-    </div>
+    <RouteContext.Provider value={{ route, setRoute }}>
+      <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-amber-50"><div className="text-slate-900 font-bold">Loading...</div></div>}>
+        {route === 'landing' && <LandingPage />}
+        {route === 'auth' && <AuthPage />}
+
+        {route === 'payment' && <PaymentPage />}
+
+        {route === 'app' && (
+          <div className="min-h-screen bg-amber-50 text-slate-900 selection:bg-yellow-300 selection:text-black font-sans">
+            <Header />
+            <MainContent />
+            <BottomNav />
+          </div>
+        )}
+      </Suspense>
+    </RouteContext.Provider>
   );
 }
 

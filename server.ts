@@ -14,6 +14,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+
+// Export for Vercel serverless functions
+export { app };
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
 // High payload limit for image slips
