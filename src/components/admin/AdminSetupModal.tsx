@@ -181,8 +181,8 @@ export const AdminSetupModal: React.FC = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
-      <div className="relative w-full max-w-2xl bg-white border-4 border-slate-900 rounded-3xl shadow-[8px_8px_0px_#000000] max-h-[92vh] flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-white/90 backdrop-blur-xs animate-in fade-in duration-150">
+      <div className="relative w-full max-w-2xl bg-white border-4 border-slate-900 rounded-[32px] shadow-[8px_8px_0px_rgb(163,177,198,0.6)] shadow-[-8px_-8px_0px_rgba(255,255,255,0.5)] max-h-[92vh] flex flex-col overflow-hidden">
         {/* Header */}
         <div className="bg-slate-900 text-white px-5 py-4 flex items-center justify-between border-b-4 border-slate-900">
           <div className="flex items-center gap-3">

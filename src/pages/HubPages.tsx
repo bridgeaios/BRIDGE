@@ -19,16 +19,16 @@ import confetti from 'canvas-confetti';
 // DESIGN TOKENS — Cool silverish neutrals
 // ============================================
 const COLOR = {
-  bg: '#f8fafc',
+  bg: '#E0E5EC',
   surface: '#ffffff',
-  panel: '#f1f5f9',
-  border: '#cbd5e1',
-  text: '#0f172a',
-  muted: '#64748b',
-  accent: '#3b82f6',
-  accentHover: '#2563eb',
-  success: '#10b981',
-  danger: '#ef4444',
+  panel: '#E0E5EC',
+  border: 'transparent',
+  text: '#3D4852',
+  muted: '#6B7280',
+  accent: '#6C63FF',
+  accentHover: '#8B84FF',
+  success: '#38B2AC',
+  danger: '#EF4444',
 };
 
 // ============================================
@@ -122,12 +122,12 @@ export const LandingPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-amber-50 text-slate-900 font-sans selection:bg-blue-200 selection:text-black">
+    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-gray-100 selection:text-black">
       {/* Navbar */}
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? 'bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm'
+            ? 'bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-[8px_8px_0px_rgba(163,177,198,0.6)] shadow-[-8px_-8px_0px_rgba(255,255,255,0.5)]'
             : 'bg-transparent'
         }`}
       >
@@ -164,9 +164,9 @@ export const LandingPage: React.FC = () => {
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-24 sm:pt-40 sm:pb-32 overflow-hidden">
-        {/* Decorative blobs */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-yellow-100/40 rounded-full blur-[120px] -z-10" />
-        <div className="absolute bottom-0 right-1/2 translate-x-1/2 w-[500px] h-[500px] bg-slate-200/30 rounded-full blur-[100px] -z-10" />
+        /*! {/* Decorative blobs */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-slate-100/20 rounded-full blur-[120px] border border-slate-200 -z-10" />
+                <div className="absolute bottom-0 right-1/2 translate-x-1/2 w-[500px] h-[500px] bg-slate-100/10 rounded-full blur-[100px] border border-slate-200 -z-10" />
 
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -174,7 +174,7 @@ export const LandingPage: React.FC = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-50 text-amber-800 font-bold text-sm border border-slate-200"
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-600 font-bold text-sm border border-slate-200"
               >
                 <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
                 New: Offline-first sync engine
@@ -187,7 +187,7 @@ export const LandingPage: React.FC = () => {
                 className="text-5xl sm:text-7xl font-black text-slate-900 leading-[1.05] tracking-tighter"
               >
                 Run your life{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-slate-600">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-600 to-slate-400">
                   like a hub
                 </span>
               </motion.h1>
@@ -303,7 +303,7 @@ export const LandingPage: React.FC = () => {
                 transition={{ delay: idx * 0.1 }}
                 className="p-6 rounded-3xl border-2 border-slate-200 bg-amber-50 hover:bg-white hover:shadow-xl hover:border-slate-300 transition-all group"
               >
-                <div className="w-12 h-12 bg-yellow-100 text-amber-700 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-yellow-400 group-hover:text-slate-900 transition">
+                <div className="w-12 h-12 bg-slate-100 text-slate-600 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-slate-200 group-hover:text-slate-900 transition">
                   {feature.icon}
                 </div>
                 <h3 className="text-xl font-black text-slate-900 mb-2">{feature.title}</h3>
@@ -314,8 +314,8 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* How it works */}
-      <section id="how-it-works" className="py-24 bg-amber-50 border-t border-slate-200">
+      /*! {/* How it works */} */
+            <section id="how-it-works" className="py-24 bg-white border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mb-4">How it works</h2>
@@ -438,8 +438,8 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 bg-slate-900 border-t border-slate-800">
+      /*! {/* CTA Section */} */
+            <section className="py-24 bg-slate-900 border-t border-slate-800">
         <div className="max-w-4xl mx-auto px-6">
           <div className="bg-slate-800 rounded-[32px] p-8 sm:p-12 border-3 border-slate-700 shadow-[6px_6px_0px_rgba(0,0,0,0.3)] text-center">
             <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">Ready to run your hub?</h2>
