@@ -1,8 +1,8 @@
-# C: Users Micha Bridge Repo Api
+# Bridge Repo Api
 
-![Repo size](https://img.shields.io/github/repo-size/mikewithoutthemechanics/c:-users-micha-bridge-repo-api)
-![License](https://img.shields.io/github/license/mikewithoutthemechanics/c:-users-micha-bridge-repo-api)
-![Top language](https://img.shields.io/github/languages/top/mikewithoutthemechanics/c:-users-micha-bridge-repo-api)
+![Repo size](https://img.shields.io/github/repo-size/mikewithoutthemechanics/bridge-repo-api)
+![License](https://img.shields.io/github/license/mikewithoutthemechanics/bridge-repo-api)
+![Top language](https://img.shields.io/github/languages/top/mikewithoutthemechanics/bridge-repo-api)
 
 ## 👋 Hi, I'm Michael
 
@@ -20,8 +20,8 @@ This project exists to solve a specific need and make a particular task simpler.
 
 1. **Get the code**
    ```bash
-   git clone https://github.com/mikewithoutthemechanics/c:-users-micha-bridge-repo-api.git
-   cd c:-users-micha-bridge-repo-api
+   git clone https://github.com/mikewithoutthemechanics/bridge-repo-api.git
+   cd bridge-repo-api
    ```
 
 2. **Install dependencies**
@@ -42,7 +42,7 @@ typescript, express
 
 ## 💡 Why it matters
 
-This project is built to be useful and easy to pick up. If you're looking for a tool that does c: users micha bridge repo api, this is a clean, maintainable starting point you can adapt to your own needs.
+This project is built to be useful and easy to pick up. If you're looking for a tool that does bridge repo api, this is a clean, maintainable starting point you can adapt to your own needs.
 
 ## 📄 License
 
