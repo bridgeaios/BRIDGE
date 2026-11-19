@@ -1,8 +1,8 @@
-# C: Users Micha Bridge Repo
+# Bridge Repo
 
-![Repo size](https://img.shields.io/github/repo-size/mikewithoutthemechanics/c:-users-micha-bridge-repo)
-![License](https://img.shields.io/github/license/mikewithoutthemechanics/c:-users-micha-bridge-repo)
-![Top language](https://img.shields.io/github/languages/top/mikewithoutthemechanics/c:-users-micha-bridge-repo)
+![Repo size](https://img.shields.io/github/repo-size/mikewithoutthemechanics/bridge-repo)
+![License](https://img.shields.io/github/license/mikewithoutthemechanics/bridge-repo)
+![Top language](https://img.shields.io/github/languages/top/mikewithoutthemechanics/bridge-repo)
 
 ## 👋 Hi, I'm Michael
 
@@ -20,8 +20,8 @@ This project exists to solve a specific need and make a particular task simpler.
 
 1. **Get the code**
    ```bash
-   git clone https://github.com/mikewithoutthemechanics/c:-users-micha-bridge-repo.git
-   cd c:-users-micha-bridge-repo
+   git clone https://github.com/mikewithoutthemechanics/bridge-repo.git
+   cd bridge-repo
    ```
 
 2. **Install dependencies**
@@ -49,7 +49,7 @@ react, vite, tsx, typescript, tailwindcss, express
 
 ## 💡 Why it matters
 
-This project is built to be useful and easy to pick up. If you're looking for a tool that does c: users micha bridge repo, this is a clean, maintainable starting point you can adapt to your own needs.
+This project is built to be useful and easy to pick up. If you're looking for a tool that does bridge repo, this is a clean, maintainable starting point you can adapt to your own needs.
 
 ## 📄 License
 
